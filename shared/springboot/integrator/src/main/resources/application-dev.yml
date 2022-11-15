@@ -1,0 +1,22 @@
+# Dev configuration
+server:
+  port: 8080
+security:
+  basic:
+    enabled: false
+  ignored:
+    - /**
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  security:
+    enabled: false
+spring:
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+logging:
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} ${LOG_LEVEL_PATTERN:-%5p} %m%n"
