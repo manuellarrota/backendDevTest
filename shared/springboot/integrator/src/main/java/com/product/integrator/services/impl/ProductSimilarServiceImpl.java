@@ -24,11 +24,11 @@ public class ProductSimilarServiceImpl implements ProductSimilarService {
 
     @Override
     public List<ProductDto> getProductSimilar(String productId) {
-        log.info("Getting similar products for: %s" , productId);
+        log.info("Getting similar products for: "+ productId);
         List<String> productsIdList = productRepository.getIdProductSimilar(productId);
         List<ProductDto> productSimilar = new ArrayList<>();
         if(productsIdList != null && !productsIdList.isEmpty() ){
-            log.info("get objects: %d " , productsIdList.size());
+            log.info("get objects:  " + productsIdList.size());
             productSimilar = productsIdList.stream().parallel().map(
                     idString -> productRepository.getProductById(idString)
             ).collect(Collectors.toList());

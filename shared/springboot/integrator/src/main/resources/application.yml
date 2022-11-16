@@ -1,6 +1,6 @@
 #Application Configuration
 spring:
   profiles:
-    active: test
+    active: dev
 
 

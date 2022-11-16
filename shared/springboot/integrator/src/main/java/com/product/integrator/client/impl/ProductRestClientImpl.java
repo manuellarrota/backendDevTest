@@ -3,7 +3,6 @@ package com.product.integrator.client.impl;
 import com.product.integrator.client.ProductRestClient;
 import com.product.integrator.dto.ProductDto;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -16,16 +15,27 @@ import java.util.List;
 @Slf4j
 @Service
 public class ProductRestClientImpl implements ProductRestClient {
-    // load values from properties file
-    @Value("${url.get_product_by_id}")
+
+    //@Value("${url.get_product_by_id}")
     private String urlGetProductById;
-    @Value("${url.get_product_similar_id}")
+    //@Value("${url.get_product_similar_id}")
     private String urlGetProductSimilarId;
-    private RestTemplate restTemplate = new RestTemplate();
+    private RestTemplate restTemplate;
+
+    public ProductRestClientImpl(String urlGetProductById, String urlGetProductSimilarId, RestTemplate restTemplate) {
+        this.urlGetProductById = urlGetProductById;
+        this.urlGetProductSimilarId = urlGetProductSimilarId;
+        this.restTemplate = restTemplate;
+    }
+
     @Override
     public ProductDto getProductById(String productId) {
         log.debug("Getting product detail for " + productId);
         String productUrl = urlGetProductById +productId;
+        if(urlGetProductById == null){
+            log.error("urlGetProductById is null " );
+            return new ProductDto();
+        }
         ResponseEntity<ProductDto> response;
         try{
             response = restTemplate.getForEntity(productUrl, ProductDto.class);
@@ -44,10 +54,18 @@ public class ProductRestClientImpl implements ProductRestClient {
     @Override
     public List<String> getIdProductSimilar(String productId) {
         log.debug("Getting id products similar for " + productId);
+        if(productId == null){
+            log.error("productId is null " );
+            return new ArrayList<>();
+        }
+        if(urlGetProductSimilarId == null){
+            log.error("urlGetProductById is null " );
+            return new ArrayList<>();
+        }
         String productSimilarUrl = urlGetProductSimilarId.replace("{productId}", productId );
-        List<String> response = null;
+        List<String> response;
         try{
-            response = restTemplate.getForEntity(productSimilarUrl, ArrayList.class).getBody();
+            response = restTemplate.getForEntity(productSimilarUrl, List.class).getBody();
         }catch (Exception error){
             log.error("http error: " + error.getMessage());
             response = new ArrayList<>();

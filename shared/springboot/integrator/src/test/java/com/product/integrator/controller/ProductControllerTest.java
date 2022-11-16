@@ -24,7 +24,7 @@ class ProductControllerTest {
 
     @BeforeEach
     public void setup(){
-        productController = new ProductController(productSimilarService);
+
         ProductResponseDto productResponseDto = new ProductResponseDto();
         ProductDto productDto = new ProductDto("1","Shirt", 9.99, true );
         List<ProductDto> productsSimilarMock = new ArrayList<>();
@@ -36,6 +36,7 @@ class ProductControllerTest {
         Mockito.when(productSimilarService.getProductSimilar("0")).thenReturn(
                 new ArrayList<>()
         );
+        productController = new ProductController(productSimilarService);
     }
 
     @Test

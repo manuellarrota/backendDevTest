@@ -11,6 +11,7 @@ import java.util.List;
 public class ProductRestRepositoryImpl implements ProductRepository {
 
     private ProductRestClient productRestClient;
+
     @Autowired
     public ProductRestRepositoryImpl(ProductRestClient productRestClient) {
         this.productRestClient = productRestClient;

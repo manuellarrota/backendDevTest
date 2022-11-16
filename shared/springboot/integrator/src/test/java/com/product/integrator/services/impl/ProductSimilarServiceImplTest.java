@@ -23,7 +23,7 @@ class ProductSimilarServiceImplTest {
 
     @BeforeEach
     public void setup(){
-        productSimilarService = new ProductSimilarServiceImpl(productRepository);
+
         ProductResponseDto productResponseDto = new ProductResponseDto();
         ProductDto productDto = new ProductDto("1","Shirt", 9.99, true );
         List<ProductDto> productsSimilarMock = new ArrayList<>();
@@ -35,6 +35,7 @@ class ProductSimilarServiceImplTest {
         Mockito.when(productRepository.getIdProductSimilar("1")).thenReturn(
                 Arrays.asList("2","3","4")
         );
+        productSimilarService = new ProductSimilarServiceImpl(productRepository);
     }
 
     @Test
