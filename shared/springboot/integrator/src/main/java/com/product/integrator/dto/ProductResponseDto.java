@@ -1,4 +1,4 @@
-package com.product.integrator.infraestructure.dto;
+package com.product.integrator.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
