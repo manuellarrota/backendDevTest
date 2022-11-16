@@ -6,6 +6,7 @@ package com.product.integrator.config;
 import org.apache.maven.model.Model;
 import org.apache.maven.model.io.xpp3.MavenXpp3Reader;
 import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import springfox.documentation.builders.PathSelectors;
@@ -22,6 +23,10 @@ import java.util.ArrayList;
 
 @Configuration
 public class SwaggerConfig {
+
+    // load values from properties file
+    @Value("${swagger.url.pom}")
+    private String swaggerUrlPom;
     @Bean
     public Docket api() {
             return new Docket(DocumentationType.SWAGGER_2).select()
@@ -36,9 +41,9 @@ public class SwaggerConfig {
         MavenXpp3Reader reader = new MavenXpp3Reader();
         Model model;
         try {
-            model = reader.read(new FileReader("shared/springboot/integrator/pom.xml"));
+            model = reader.read(new FileReader(swaggerUrlPom));
             return new ApiInfo(model.getArtifactId(), model.getDescription(), model.getParent().getVersion(), "",
-                    new Contact("between", "http://between.com", ""), "", "", new ArrayList<>());
+                    new Contact("zara", "http://zara.com", ""), "", "", new ArrayList<>());
         } catch (IOException | XmlPullParserException e) {
             e.printStackTrace();
             return null;

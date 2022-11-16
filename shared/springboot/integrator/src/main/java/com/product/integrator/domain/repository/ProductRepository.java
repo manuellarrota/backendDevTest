@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface ProductRepository {
 
-    ProductDto getProductById(Long productId);
+    ProductDto getProductById(String productId);
 
-    List<Long> getIdProductSimilar(Long productId);
+    List<String> getIdProductSimilar(String productId);
 }

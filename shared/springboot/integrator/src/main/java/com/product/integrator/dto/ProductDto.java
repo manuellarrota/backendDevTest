@@ -8,9 +8,15 @@ import lombok.NoArgsConstructor;
 @ApiModel("Product detail")
 @Data
 @AllArgsConstructor @NoArgsConstructor
-public class ProductDto {
+public class ProductDto implements Comparable<ProductDto> {
     private String id;
     private String name;
     private double price;
     private boolean availability;
+
+
+    @Override
+    public int compareTo(ProductDto o) {
+        return o.id.compareTo(this.id);
+    }
 }

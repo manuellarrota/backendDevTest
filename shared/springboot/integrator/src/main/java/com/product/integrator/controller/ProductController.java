@@ -29,13 +29,19 @@ public class ProductController {
     @ApiOperation(value = "List of similar products to a given one ordered by similarity")
     @GetMapping("{productId}/similar")
     ResponseEntity<ProductResponseDto> getProductSimilar(@PathVariable String productId){
+        log.info("---> Getting similar productos for: " + productId);
+        if(productId == null){
+            log.info("productId is null.");
+            return new ResponseEntity<>( new ProductResponseDto(), HttpStatus.NOT_FOUND);
+        }
         List<ProductDto> similarProductsDtoList = productSimilarService.getProductSimilar(productId);
         ResponseEntity<ProductResponseDto> responseEntity;
-        if(!similarProductsDtoList.isEmpty()){
+        if(similarProductsDtoList != null && !similarProductsDtoList.isEmpty()){
             responseEntity = new ResponseEntity<>( new ProductResponseDto(similarProductsDtoList), HttpStatus.OK);
         }else{
             responseEntity = new ResponseEntity<>( new ProductResponseDto(), HttpStatus.NOT_FOUND);
         }
+        log.info("---< Getting similar productos response: " + responseEntity);
         return responseEntity;
     }
 }

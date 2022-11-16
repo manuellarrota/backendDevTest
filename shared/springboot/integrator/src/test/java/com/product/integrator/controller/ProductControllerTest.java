@@ -39,14 +39,20 @@ class ProductControllerTest {
     }
 
     @Test
-    void getProductSimilar() {
+    void getProductSimilar_all_ok_then_return_ok() {
         ResponseEntity<ProductResponseDto>productResponseDto = productController.getProductSimilar("1");
         Assertions.assertThat(productResponseDto.getStatusCode()).isEqualTo(HttpStatus.OK);
     }
 
     @Test
-    void getProductSimilar_Id_not_found_then_not_found_error() {
+    void getProductSimilar_Id_not_found_then_return_not_found_error() {
         ResponseEntity<ProductResponseDto> productResponseDto = productController.getProductSimilar("0");
+        Assertions.assertThat(productResponseDto.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
+    }
+
+    @Test
+    void getProductSimilar_Id_null_then_return_not_found_error() {
+        ResponseEntity<ProductResponseDto> productResponseDto = productController.getProductSimilar(null);
         Assertions.assertThat(productResponseDto.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
     }
 }

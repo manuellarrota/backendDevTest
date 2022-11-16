@@ -6,8 +6,8 @@ import java.util.List;
 
 public interface ProductRestClient {
 
-    ProductDto getProductById(Long productId);
+    ProductDto getProductById(String productId);
 
-    List<Long> getIdProductSimilar(Long productId);
+    List<String> getIdProductSimilar(String productId);
 
 }

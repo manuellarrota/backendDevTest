@@ -1,27 +1,27 @@
 [
   {
     "path": "/product/1/similarids",
-    "body": "[2,3,4]",
+    "body": "[\"2\",\"3\",\"4\"]",
     "headers": {"Content-Type": "application/json"}
   },
   {
     "path": "/product/2/similarids",
-    "body": "[3,100,1000]",
+    "body": "[\"3\",\"100\",\"1000\"]",
     "headers": {"Content-Type": "application/json"}
   },
   {
     "path": "/product/3/similarids",
-    "body": "[100,1000,10000]",
+    "body": "[\"100\",\"1000\",\"10000\"]",
     "headers": {"Content-Type": "application/json"}
   },
   {
     "path": "/product/4/similarids",
-    "body": "[1,2,5]",
+    "body": "[\"1\",\"2\",\"5\"]",
     "headers": {"Content-Type": "application/json"}
   },
   {
     "path": "/product/5/similarids",
-    "body": "[1,2,6]",
+    "body": "[\"1\",\"2\",\"6\"]",
     "headers": {"Content-Type": "application/json"}
   },
   {
