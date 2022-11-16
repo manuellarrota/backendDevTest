@@ -5,12 +5,13 @@ import com.product.integrator.services.ProductSimilarService;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class ProductSimilarServiceImpl implements ProductSimilarService {
 
     @Override
-    public ArrayList<ProductDto> getProductSimilar(Long productId) {
+    public List<ProductDto> getProductSimilar(String productId) {
         return new ArrayList<>();
     }
 }

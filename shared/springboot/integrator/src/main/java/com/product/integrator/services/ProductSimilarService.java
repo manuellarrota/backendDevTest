@@ -3,9 +3,9 @@ package com.product.integrator.services
 
 import com.product.integrator.dto.ProductDto;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public interface ProductSimilarService {
 
-    ArrayList<ProductDto> getProductSimilar(Long productId);
+    List<ProductDto> getProductSimilar(String productId);
 }

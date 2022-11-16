@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ProductRestClientImpl implements ProductRestClient {
+
+
     @Override
     public ProductDto getProductById(Long productId) {
 
