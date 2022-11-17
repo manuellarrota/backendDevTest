@@ -16,9 +16,9 @@ import java.util.List;
 @Service
 public class ProductRestClientImpl implements ProductRestClient {
 
-    private String urlGetProductById;
-    private String urlGetProductSimilarId;
-    private RestTemplate restTemplate;
+    private final String urlGetProductById;
+    private final String urlGetProductSimilarId;
+    private final RestTemplate restTemplate;
 
     public ProductRestClientImpl(String urlGetProductById, String urlGetProductSimilarId, RestTemplate restTemplate) {
         this.urlGetProductById = urlGetProductById;

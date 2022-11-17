@@ -25,12 +25,7 @@ class ProductSimilarServiceImplTest {
 
     @BeforeEach
     public void setup(){
-
-        ProductResponseDto productResponseDto = new ProductResponseDto();
         ProductDto productDto = new ProductDto("1","Shirt", 9.99, true );
-        List<ProductDto> productsSimilarMock = new ArrayList<>();
-        productsSimilarMock.add(productDto);
-        productResponseDto.setSimilarProducts(new ArrayList<>());
         Mockito.when(productRepository.getProductById("1")).thenReturn(
                 CompletableFuture.completedFuture(productDto)
         );
@@ -42,20 +37,20 @@ class ProductSimilarServiceImplTest {
 
     @Test
     void getProductSimilar_when_all_ok_then_return_ok(){
-        List<ProductDto> productDtos = productSimilarService.getProductSimilar("1");
-        Assertions.assertThat(productDtos).hasSize(3);
+        List<ProductDto> productDtoList = productSimilarService.getProductSimilar("1");
+        Assertions.assertThat(productDtoList).hasSize(3);
     }
 
     @Test
     void getProductSimilar_when_productId_not_found_ok_then_return_ok(){
-        List<ProductDto> productDtos = productSimilarService.getProductSimilar("0");
-        Assertions.assertThat(productDtos).isEmpty();
+        List<ProductDto> productDtoList = productSimilarService.getProductSimilar("0");
+        Assertions.assertThat(productDtoList).isEmpty();
     }
 
     @Test
     void getProductSimilar_when_productId_is_null_ok_then_return_ok(){
-        List<ProductDto> productDtos = productSimilarService.getProductSimilar(null);
-        Assertions.assertThat(productDtos).isEmpty();
+        List<ProductDto> productDtoList = productSimilarService.getProductSimilar(null);
+        Assertions.assertThat(productDtoList).isEmpty();
     }
 
 }

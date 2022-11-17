@@ -57,12 +57,12 @@ class ProductRestClientImplTest {
     }
 
     @Test
-    void getProductById_when_productid_not_found_then_return_null() {
+    void getProductById_when_productId_not_found_then_return_null() {
         ProductDto productDto = productRestClient.getProductById("2");
         Assertions.assertThat(productDto.getName()).isNull();
     }
     @Test
-    void getProductById_when_productid_is_null_then_return_null() {
+    void getProductById_when_productId_is_null_then_return_null() {
         ProductDto productDto = productRestClient.getProductById(null);
         Assertions.assertThat(productDto.getName()).isNull();
     }

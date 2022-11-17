@@ -16,7 +16,7 @@ import java.util.concurrent.CompletableFuture;
 @Slf4j
 public class ProductRestRepositoryImpl implements ProductRepository {
 
-    private ProductRestClient productRestClient;
+    private final ProductRestClient productRestClient;
 
     @Autowired
     public ProductRestRepositoryImpl(ProductRestClient productRestClient) {

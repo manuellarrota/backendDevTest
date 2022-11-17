@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 @Slf4j
 public class ProductSimilarServiceImpl implements ProductSimilarService {
 
-    private ProductRepository productRepository;
+    private final ProductRepository productRepository;
 
     @Autowired
     public ProductSimilarServiceImpl(ProductRepository productRepository) {

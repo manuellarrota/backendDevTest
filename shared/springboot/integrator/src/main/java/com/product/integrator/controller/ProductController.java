@@ -23,7 +23,7 @@ public class ProductController {
 
     private static final String RESILIENCE4J_INSTANCE_NAME = "productService";
     private static final String FALLBACK_METHOD = "getProductSimilarFallBack";
-    ProductSimilarService productSimilarService;
+    final ProductSimilarService productSimilarService;
     @Autowired
     public ProductController(ProductSimilarService productSimilarService) {
         this.productSimilarService = productSimilarService;
