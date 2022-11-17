@@ -7,10 +7,18 @@ security:
   ignored:
     - /**
 management:
+  health:
+    circuitbreakers:
+      enabled: true
+    ratelimiters:
+      enabled: true
   endpoints:
     web:
       exposure:
-        include: "*"
+        include: health
+  endpoint:
+    health:
+      show-details: always
   security:
     enabled: false
 spring:
@@ -26,3 +34,50 @@ url:
 swagger:
   url:
     pom: "shared/springboot/integrator/pom.xml"
+
+resilience4j:
+  circuitbreaker:
+    instances:
+      productService:
+        registerHealthIndicator: true
+        eventConsumerBufferSize: 10
+        automaticTransitionFromOpenToHalfOpenEnabled: true
+        failureRateThreshold: 70
+        minimumNumberOfCalls: 5
+        permittedNumberOfCallsInHalfOpenState: 3
+        slidingWindowSize: 2
+        waitDurationInOpenState: 2s
+        slidingWindowType: COUNT_BASED
+  retry:
+    configs:
+      default:
+        maxRetryAttempts: 3
+        waitDuration: 2000
+      queryById:
+        maxRetryAttempts: 3
+        waitDuration: 2000
+      findAll:
+        maxRetryAttempts: 3
+        waitDuration: 2000
+  thread-pool-bulkhead:
+    instances:
+      productService:
+        maxThreadPoolSize: 1
+        coreThreadPoolSize: 1
+  bulkhead:
+    instances:
+      productService:
+        maxConcurrentCalls: 10
+  ratelimiter:
+    configs:
+      productService:
+        registerHealthIndicator: false
+        limitForPeriod: 1
+        limitRefreshPeriod: 2s
+        timeoutDuration: 0
+        eventConsumerBufferSize: 100
+  timelimiter:
+    instances:
+      productService:
+        cancelRunningFuture: false
+        timeoutDuration: 2s

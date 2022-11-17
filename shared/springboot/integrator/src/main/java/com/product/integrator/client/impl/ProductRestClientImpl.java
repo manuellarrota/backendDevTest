@@ -16,9 +16,7 @@ import java.util.List;
 @Service
 public class ProductRestClientImpl implements ProductRestClient {
 
-    //@Value("${url.get_product_by_id}")
     private String urlGetProductById;
-    //@Value("${url.get_product_similar_id}")
     private String urlGetProductSimilarId;
     private RestTemplate restTemplate;
 
@@ -30,8 +28,8 @@ public class ProductRestClientImpl implements ProductRestClient {
 
     @Override
     public ProductDto getProductById(String productId) {
-        log.debug("Getting product detail for " + productId);
-        String productUrl = urlGetProductById +productId;
+        log.debug("getting product detail for " + productId);
+        String productUrl = urlGetProductById + productId;
         if(urlGetProductById == null){
             log.error("urlGetProductById is null " );
             return new ProductDto();
@@ -44,16 +42,17 @@ public class ProductRestClientImpl implements ProductRestClient {
                 return new ProductDto();
             }
         }catch (RestClientException error){
-            log.error("http error: " + error.getMessage());
+            log.error("http rest client error: " + error.getMessage());
             return new ProductDto();
         }
-        log.debug("Getting product detail response:" + response);
+        log.debug("getting product detail response:" + response);
         return response.getBody();
     }
 
+
     @Override
     public List<String> getIdProductSimilar(String productId) {
-        log.debug("Getting id products similar for " + productId);
+        log.debug("getting id products similar for " + productId);
         if(productId == null){
             log.error("productId is null " );
             return new ArrayList<>();
@@ -67,11 +66,9 @@ public class ProductRestClientImpl implements ProductRestClient {
         try{
             response = restTemplate.getForEntity(productSimilarUrl, List.class).getBody();
         }catch (Exception error){
-            log.error("http error: " + error.getMessage());
+            log.error("http rest client error: " + error.getMessage());
             response = new ArrayList<>();
         }
-
         return response;
-
     }
 }

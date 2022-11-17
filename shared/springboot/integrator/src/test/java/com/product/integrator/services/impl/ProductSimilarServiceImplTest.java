@@ -14,6 +14,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
+
 @SpringBootTest
 class ProductSimilarServiceImplTest {
 
@@ -30,10 +32,10 @@ class ProductSimilarServiceImplTest {
         productsSimilarMock.add(productDto);
         productResponseDto.setSimilarProducts(new ArrayList<>());
         Mockito.when(productRepository.getProductById("1")).thenReturn(
-                productDto
+                CompletableFuture.completedFuture(productDto)
         );
         Mockito.when(productRepository.getIdProductSimilar("1")).thenReturn(
-                Arrays.asList("2","3","4")
+                CompletableFuture.completedFuture(Arrays.asList("2","3","4"))
         );
         productSimilarService = new ProductSimilarServiceImpl(productRepository);
     }

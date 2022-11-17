@@ -3,6 +3,7 @@ package com.product.integrator.controller;
 import com.product.integrator.dto.ProductDto;
 import com.product.integrator.dto.ProductResponseDto;
 import com.product.integrator.services.ProductSimilarService;
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,8 @@ import java.util.List;
 @Slf4j
 public class ProductController {
 
+    private static final String RESILIENCE4J_INSTANCE_NAME = "productService";
+    private static final String FALLBACK_METHOD = "getProductSimilarFallBack";
     ProductSimilarService productSimilarService;
     @Autowired
     public ProductController(ProductSimilarService productSimilarService) {
@@ -27,11 +30,12 @@ public class ProductController {
     }
 
     @ApiOperation(value = "List of similar products to a given one ordered by similarity")
-    @GetMapping("{productId}/similar")
+    @GetMapping("{productId}/similar" )
+    @CircuitBreaker(name = RESILIENCE4J_INSTANCE_NAME, fallbackMethod = FALLBACK_METHOD)
     ResponseEntity<ProductResponseDto> getProductSimilar(@PathVariable String productId){
-        log.info("---> Getting similar productos for: " + productId);
+        log.info("<getProductSimilar> Begin, Validating data for: " + productId);
         if(productId == null){
-            log.info("productId is null.");
+            log.error(" productId is null.");
             return new ResponseEntity<>( new ProductResponseDto(), HttpStatus.NOT_FOUND);
         }
         List<ProductDto> similarProductsDtoList = productSimilarService.getProductSimilar(productId);
@@ -41,7 +45,13 @@ public class ProductController {
         }else{
             responseEntity = new ResponseEntity<>( new ProductResponseDto(), HttpStatus.NOT_FOUND);
         }
-        log.info("---< Getting similar productos response: " + responseEntity);
+        log.info("<getProductSimilar> End. ");
         return responseEntity;
     }
+
+    ResponseEntity<ProductResponseDto> getProductSimilarFallBack(@PathVariable String productId, RuntimeException error){
+        log.info("fallback "+ productId+ " , " + error);
+        return new ResponseEntity<>( new ProductResponseDto(), HttpStatus.NOT_FOUND);
+    }
+
 }
