@@ -2,7 +2,6 @@ package com.product.integrator.services.impl;
 
 import com.product.integrator.domain.repository.ProductRepository;
 import com.product.integrator.dto.ProductDto;
-import com.product.integrator.dto.ProductResponseDto;
 import com.product.integrator.services.ProductSimilarService;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -11,7 +10,6 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;

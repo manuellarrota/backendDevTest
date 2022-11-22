@@ -25,7 +25,6 @@ public class ProductSimilarServiceImpl implements ProductSimilarService {
 
     @Override
     public List<ProductDto> getProductSimilar(String productId) {
-        log.info("getting similar products to: " + productId);
         CompletableFuture<List<String>> completableFutureListIds = productRepository.getIdProductSimilar(productId);
         List<String> productsIdList;
         List<ProductDto> productSimilar = new ArrayList<>();
@@ -41,7 +40,7 @@ public class ProductSimilarServiceImpl implements ProductSimilarService {
         }
 
         if(productsIdList != null && !productsIdList.isEmpty() ){
-            log.info("get objects for similar ids for:  " + productsIdList.size());
+            log.debug("get objects for similar ids for:  " + productsIdList.size());
             productSimilar = productsIdList.parallelStream().map(
                     idString -> {
                         try {

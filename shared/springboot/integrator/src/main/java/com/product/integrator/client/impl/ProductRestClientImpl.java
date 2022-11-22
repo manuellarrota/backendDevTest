@@ -30,6 +30,10 @@ public class ProductRestClientImpl implements ProductRestClient {
     public ProductDto getProductById(String productId) {
         log.debug("getting product detail for " + productId);
         String productUrl = urlGetProductById + productId;
+        if(productId == null){
+            log.error("productId is null " );
+            return new ProductDto();
+        }
         if(urlGetProductById == null){
             log.error("urlGetProductById is null " );
             return new ProductDto();
@@ -37,7 +41,7 @@ public class ProductRestClientImpl implements ProductRestClient {
         ResponseEntity<ProductDto> response;
         try{
             response = restTemplate.getForEntity(productUrl, ProductDto.class);
-            if ( response.getStatusCode() != HttpStatus.OK){
+            if ( response == null || response.getStatusCode() != HttpStatus.OK){
                 log.debug("error consuming similar ids: " + response);
                 return new ProductDto();
             }

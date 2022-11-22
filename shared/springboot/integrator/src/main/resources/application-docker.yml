@@ -1,4 +1,4 @@
-# Test configuration
+# Dev configuration
 server:
   port: 5000
 security:
@@ -7,10 +7,18 @@ security:
   ignored:
     - /**
 management:
+  health:
+    circuitbreakers:
+      enabled: true
+    ratelimiters:
+      enabled: true
   endpoints:
     web:
       exposure:
-        include: "*"
+        include: health
+  endpoint:
+    health:
+      show-details: always
   security:
     enabled: false
 spring:
@@ -21,11 +29,11 @@ logging:
   pattern:
     console: "%d{yyyy-MM-dd hh:mm:ss} %clr(%X{username}){magenta} - %clr(%c{10}[%L]){cyan} : %msg%n"
 url:
-  get_product_by_id: "http://localhost:3001/product/"
-  get_product_similar_id: "http://localhost:3001/product/{productId}/similarids"
+  get_product_by_id: "http://backenddevtest_simulado_1:80/product/"
+  get_product_similar_id: "http://backenddevtest_simulado_1:80/product/{productId}/similarids"
 swagger:
   url:
-    pom: "pom.xml"
+    pom: "shared/springboot/integrator/pom.xml"
 
 resilience4j:
   circuitbreaker:

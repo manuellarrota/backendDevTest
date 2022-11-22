@@ -42,7 +42,11 @@ public class SwaggerConfig {
         Model model;
         try {
             model = reader.read(new FileReader(swaggerUrlPom));
-            return new ApiInfo(model.getArtifactId(), model.getDescription(), model.getParent().getVersion(), "",
+            if(model != null){
+                return new ApiInfo(model.getArtifactId(), model.getDescription(), model.getParent().getVersion(), "",
+                        new Contact("zara", "http://zara.com", ""), "", "", new ArrayList<>());
+            }
+            return new ApiInfo("integrator", "Api to get product similar ids integrated", "0.0.1-SNAPSHOT", "",
                     new Contact("zara", "http://zara.com", ""), "", "", new ArrayList<>());
         } catch (IOException | XmlPullParserException e) {
             e.printStackTrace();

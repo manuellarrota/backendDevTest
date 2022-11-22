@@ -45,13 +45,8 @@ public class ProductController {
         }else{
             responseEntity = new ResponseEntity<>( new ProductResponseDto(), HttpStatus.NOT_FOUND);
         }
-        log.info("<getProductSimilar> End. ");
+        log.info("<getProductSimilar> End for:  " + productId);
         return responseEntity;
-    }
-
-    ResponseEntity<ProductResponseDto> getProductSimilarFallBack(@PathVariable String productId, RuntimeException error){
-        log.info("fallback "+ productId+ " , " + error);
-        return new ResponseEntity<>( new ProductResponseDto(), HttpStatus.NOT_FOUND);
     }
 
 }

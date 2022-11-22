@@ -18,6 +18,7 @@ services:
       - ./shared/grafana:/etc/grafana/provisioning/
   simulado:
     image : ldabiralai/simulado:latest
+    hostname: simulado
     ports:
       - "3001:80"
     volumes:
@@ -33,3 +34,13 @@ services:
       - K6_OUT=influxdb=http://influxdb:8086/k6
     extra_hosts:
       - "host.docker.internal:host-gateway"
+  products_integrator:
+    image: integrator/products-similar
+    build: ./shared/springboot/integrator/.
+    ports:
+      - "5000:5000"
+    environment:
+      - profile=docker
+    links:
+      - simulado
+

@@ -31,3 +31,20 @@ The following topics will be considered:
 - Code clarity and maintainability
 - Performance
 - Resilience
+
+# Solution
+
+The solution was created using spring boot, and another technologies.
+
+To execute the program run with docker to create the image:
+
+```
+docker build -t integrator/products-similar shared/springboot/integrator/.
+```
+
+To run :
+
+```
+docker-compose up -d simulado influxdb grafana products_integrator
+```
+
