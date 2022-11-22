@@ -40,6 +40,7 @@ resilience4j:
         slidingWindowSize: 5
         waitDurationInOpenState: 10s
         slidingWindowType: COUNT_BASED
+        slowCallDurationThreshold: 2s
   timelimiter:
     instances:
       productService:

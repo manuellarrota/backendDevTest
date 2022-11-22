@@ -34,7 +34,7 @@ The following topics will be considered:
 
 # Solution
 
-The solution was created using spring boot, and another technologies.
+The solution was created using spring boot with circuit breaker pattern and cache.
 
 Generate the docker image with maven:
 

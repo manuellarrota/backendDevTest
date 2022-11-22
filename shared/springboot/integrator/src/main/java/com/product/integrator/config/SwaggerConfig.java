@@ -2,7 +2,7 @@
 package com.product.integrator.config;
 
 
-
+import lombok.extern.slf4j.Slf4j;
 import org.apache.maven.model.Model;
 import org.apache.maven.model.io.xpp3.MavenXpp3Reader;
 import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
@@ -22,19 +22,21 @@ import java.util.ArrayList;
 
 
 @Configuration
+@Slf4j
 public class SwaggerConfig {
 
     // load values from properties file
     @Value("${swagger.url.pom}")
     private String swaggerUrlPom;
+
     @Bean
     public Docket api() {
-            return new Docket(DocumentationType.SWAGGER_2).select()
-                    .apis(RequestHandlerSelectors.basePackage("com.product.integrator"))
-                    .paths(PathSelectors.any())
-                    .build()
-                    .apiInfo(metaData())
-                    .useDefaultResponseMessages(false);
+        return new Docket(DocumentationType.SWAGGER_2).select()
+                .apis(RequestHandlerSelectors.basePackage("com.product.integrator"))
+                .paths(PathSelectors.any())
+                .build()
+                .apiInfo(metaData())
+                .useDefaultResponseMessages(false);
     }
 
     private ApiInfo metaData() {
@@ -42,17 +44,13 @@ public class SwaggerConfig {
         Model model;
         try {
             model = reader.read(new FileReader(swaggerUrlPom));
-            if(model != null){
-                return new ApiInfo(model.getArtifactId(), model.getDescription(), model.getParent().getVersion(), "",
-                        new Contact("zara", "http://zara.com", ""), "", "", new ArrayList<>());
-            }
-            return new ApiInfo("integrator", "Api to get product similar ids integrated", "0.0.1-SNAPSHOT", "",
+            return new ApiInfo(model.getArtifactId(), model.getDescription(), model.getParent().getVersion(), "",
                     new Contact("zara", "http://zara.com", ""), "", "", new ArrayList<>());
         } catch (IOException | XmlPullParserException e) {
-            e.printStackTrace();
-            return null;
+            log.error(e.getMessage());
+            return new ApiInfo("integrator", "Api to get product similar ids integrated", "0.0.1-SNAPSHOT", "",
+                    new Contact("zara", "http://zara.com", ""), "", "", new ArrayList<>());
         }
-
     }
 }
 

@@ -49,4 +49,9 @@ public class ProductController {
         return responseEntity;
     }
 
+    public ResponseEntity<ProductResponseDto> getProductSimilarFallBack(@PathVariable String productId, RuntimeException error){
+        log.debug("fallback "+ productId+ " , " + error);
+        return new ResponseEntity<>( new ProductResponseDto(), HttpStatus.NOT_FOUND);
+    }
+
 }
