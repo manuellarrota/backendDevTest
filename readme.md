@@ -36,13 +36,13 @@ The following topics will be considered:
 
 The solution was created using spring boot, and another technologies.
 
-To execute the program run with docker to create the image:
+Generate the docker image with maven:
 
 ```
-docker build -t integrator/products-similar shared/springboot/integrator/.
+mvn clean package
 ```
 
-To run :
+To execute all images at the same time:
 
 ```
 docker-compose up -d simulado influxdb grafana products_integrator
