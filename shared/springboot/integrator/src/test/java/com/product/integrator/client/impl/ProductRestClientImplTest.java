@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
@@ -23,6 +24,8 @@ class ProductRestClientImplTest {
     @Mock
     private RestTemplate restTemplate;
     private ProductRestClient productRestClient;
+    private ProductRestClient productRestClientUrlGetProductByIdNull;
+    private ProductRestClient productRestClientUrlGetProductSimilarIdNull;
 
     @Value("${url.get_product_by_id}")
     private String urlGetProductById;
@@ -33,21 +36,38 @@ class ProductRestClientImplTest {
     public void setup(){
 
         String productId = "1";
+        String productIdError = "error";
+
+        // Urls
         String productUrl = urlGetProductById +productId;
+        String productUrlError = urlGetProductById +productIdError;
         String productListUrl = urlGetProductSimilarId.replace("{productId}", productId);
+        String productListUrlError = urlGetProductSimilarId.replace("{productId}", productIdError);
+
         ProductResponseDto productResponseDto = new ProductResponseDto();
         ProductDto productDto = new ProductDto("1","Shirt", 9.99, true );
         List<ProductDto> productsSimilarMock = new ArrayList<>();
         productsSimilarMock.add(productDto);
         productResponseDto.setSimilarProducts(productsSimilarMock);
+
+        // Mocks GetProductById
         Mockito.when(restTemplate.getForEntity(productUrl, ProductDto.class)).thenReturn(
                 new ResponseEntity<>(productDto, HttpStatus.OK)
         );
+        Mockito.when(restTemplate.getForEntity(productUrlError, ProductDto.class)).thenThrow(
+                new RestClientException("Connection error")
+        );
+        // Mocks GetProductSimilarId
         Mockito.when(restTemplate.getForEntity(productListUrl, List.class)).thenReturn(
                 new ResponseEntity<>(Arrays.asList("2","3","4"), HttpStatus.OK)
         );
+        Mockito.when(restTemplate.getForEntity(productListUrlError, List.class)).thenThrow(
+                new RestClientException("Connection error")
+        );
 
         productRestClient = new ProductRestClientImpl(urlGetProductById, urlGetProductSimilarId, restTemplate );
+        productRestClientUrlGetProductByIdNull = new ProductRestClientImpl(null, urlGetProductSimilarId, restTemplate );
+        productRestClientUrlGetProductSimilarIdNull = new ProductRestClientImpl(urlGetProductById, null, restTemplate );
 
     }
     @Test
@@ -68,6 +88,18 @@ class ProductRestClientImplTest {
     }
 
     @Test
+    void getProductById_when_urlGetProductById_is_null_then_return_new_list() {
+        ProductDto productDto = productRestClientUrlGetProductByIdNull.getProductById("1");
+        Assertions.assertThat(productDto.getName()).isNull();
+    }
+
+    @Test
+    void getProductById_when_urlGetProductById_get_error_then_return_new_list() {
+        ProductDto productDto = productRestClient.getProductById("error");
+        Assertions.assertThat(productDto.getName()).isNull();
+    }
+
+    @Test
     void getIdProductSimilar_when_all_ok_then_return_ok() {
        List<String> idStringList =  productRestClient.getIdProductSimilar("1");
         Assertions.assertThat(idStringList).hasSize(3);
@@ -83,4 +115,17 @@ class ProductRestClientImplTest {
         List<String> idStringList =  productRestClient.getIdProductSimilar(null);
         Assertions.assertThat(idStringList).isEmpty();
     }
+
+   @Test
+   void getIdProductSimilar_when_urlGetProductSimilarId_is_null_then_return_new_list() {
+       List<String> idStringList =  productRestClientUrlGetProductSimilarIdNull.getIdProductSimilar("1");
+       Assertions.assertThat(idStringList).isEmpty();
+   }
+
+    @Test
+    void getIdProductSimilar_when_urlGetProductSimilarId_get_error_then_return_new_list() {
+        List<String> idStringList =  productRestClient.getIdProductSimilar("error");
+        Assertions.assertThat(idStringList).isEmpty();
+    }
+
 }
