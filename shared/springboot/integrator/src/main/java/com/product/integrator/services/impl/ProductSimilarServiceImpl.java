@@ -49,10 +49,10 @@ public class ProductSimilarServiceImpl implements ProductSimilarService {
                                 return completableFuture.get();
                             }
                             log.error("error getting product: " + idString);
-                            return null;
+                            return new ProductDto();
                         } catch (Exception e){
                             log.error("error getting product: " + idString + ", message: " + e.getMessage());
-                            return null;
+                            return new ProductDto();
                         }
                     }
             ).collect(Collectors.toList());
