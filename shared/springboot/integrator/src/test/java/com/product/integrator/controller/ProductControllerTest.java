@@ -56,4 +56,10 @@ class ProductControllerTest {
         ResponseEntity<ProductResponseDto> productResponseDto = productController.getProductSimilar(null);
         Assertions.assertThat(productResponseDto.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
     }
+
+    @Test
+    void getProductSimilar_getProductSimilarFallBack_ok_then_return_not_found_error() {
+        ResponseEntity<ProductResponseDto> productResponseDto = productController.getProductSimilarFallBack("1", new RuntimeException());
+        Assertions.assertThat(productResponseDto.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
+    }
 }
